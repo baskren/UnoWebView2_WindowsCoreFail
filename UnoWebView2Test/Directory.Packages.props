@@ -7,4 +7,11 @@
   -->
   <ItemGroup>
   </ItemGroup>
+
+
+    <ItemGroup Condition=" $(TargetFramework.Contains('-windows'))">
+        <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" OverrideVersion="10.0.26100.1742" />
+        <PackageVersion Include="Microsoft.WindowsAppSDK" OverrideVersion="1.7.250310001"/>
+    </ItemGroup>
+
 </Project>

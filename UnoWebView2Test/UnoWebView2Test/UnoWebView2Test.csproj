@@ -1,8 +1,11 @@
-<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
+      <!--
     <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+    -->
+      <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.19041;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
 
-    <OutputType>Exe</OutputType>
+      <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
 
     <!-- Display name -->
@@ -33,8 +36,20 @@
       https://aka.platform.uno/singleproject-features
     -->
     <UnoFeatures>
-        Toolkit;
     </UnoFeatures>
+
+
   </PropertyGroup>
 
+    <!--    
+    <ItemGroup Condition=" $(TargetFramework.Contains('-windows'))">
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" OverrideVersion="10.0.26100.1742" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" OverrideVersion="1.7.250310001"/>
+    </ItemGroup>
+    -->
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**" />
+    </ItemGroup>
+    
 </Project>

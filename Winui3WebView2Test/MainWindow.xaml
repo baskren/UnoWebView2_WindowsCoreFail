@@ -19,9 +19,51 @@
           Padding="10"
           Content="LOAD CONTENT"
           Click="Button_Click"
-          HorizontalAlignment="Center" />
+          HorizontalAlignment="Left" />
+        <ToggleSwitch
+            
+            x:Name="useSourceUriToggle"
+            HorizontalAlignment="Right"
+            Margin="10"
+            Padding="10"
+            Header="Use Source Uri:"
+            Toggled="useSourceUriToggle_Toggled"
+            />
+
         <Rectangle Grid.Row="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <WebView2 x:Name="MyWebView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="400" />
+            </Grid.RowDefinitions>
+
+
+            <WebView2 x:Name="MyWebView0" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ScrollView Grid.Row="1" Grid.Column="0" >
+                <TextBlock x:Name="StatusTextBlock0" Margin="5" TextWrapping="WrapWholeWords" />
+            </ScrollView>
+
+            <WebView2 x:Name="MyWebView1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ScrollView Grid.Row="1" Grid.Column="1" >
+                <TextBlock x:Name="StatusTextBlock1" Margin="5" TextWrapping="WrapWholeWords" />
+            </ScrollView>
+
+            <WebView2 x:Name="MyWebView2" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ScrollView Grid.Row="1" Grid.Column="2" >
+                <TextBlock x:Name="StatusTextBlock2" Margin="5" TextWrapping="WrapWholeWords" />
+            </ScrollView>
+
+            <WebView2 x:Name="MyWebView3" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ScrollView Grid.Row="1" Grid.Column="3" >
+                <TextBlock x:Name="StatusTextBlock3" Margin="5" TextWrapping="WrapWholeWords" />
+            </ScrollView>
+        </Grid>
     </Grid>
 
 
