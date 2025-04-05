@@ -63,12 +63,15 @@ public sealed partial class MainPage : Page
             System.Diagnostics.Debug.WriteLine(file.Name);
         }
 
-        //await MyWebView0.EnsureCoreWebView2Async();
-        //await MyWebView1.EnsureCoreWebView2Async();
-        //await MyWebView2.EnsureCoreWebView2Async();
-        //await MyWebView3.EnsureCoreWebView2Async();
-        //MyWebView.NavigateToString("SAMPLE TEXT");
+        await MyWebView0.EnsureCoreWebView2Async();
+        await MyWebView1.EnsureCoreWebView2Async();
+        await MyWebView2.EnsureCoreWebView2Async();
+        await MyWebView3.EnsureCoreWebView2Async();
+        
+        //MyWebView0.NavigateToString("SAMPLE TEXT");
+        //return;
 
+        try
         // Asset
         {
             // var assetFile = new Uri("ms-appx:///Assets/"); // StorageFile.GetFileFromApplicationUriAsync() throws: System.Runtime.InteropServices.COMException: ''
@@ -76,17 +79,22 @@ public sealed partial class MainPage : Page
             // var sourceUri = new Uri("ms-appdata:///Assets/index.html"); // Exception
             var sourceUri = new Uri("ms-appx:///Assets/index.html"); // works
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
-            //MyWebView0.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
-            MyWebView0.NavigateToString("TEST STRING");
+            MyWebView0.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
+            //MyWebView0.NavigateToString("TEST STRING");
+        }
+        catch (Exception ex)
+        {
+            StatusTextBlock0.Text = ex.Message;
         }
 
-        return;
 
         using var resource = GetType().Assembly.GetManifestResourceStream("UnoWebView2Test.Resources.index.html");
 
-        // Local
+        try
         {
             var destinationFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            if (!Directory.Exists(destinationFolder.Path))
+                Directory.CreateDirectory(destinationFolder.Path);
             var destinationFilePath = Path.Combine(destinationFolder.Path, "index.html");
             using var destinationStream = File.OpenWrite(destinationFilePath);
             await resource.CopyToAsync(destinationStream);
@@ -95,11 +103,17 @@ public sealed partial class MainPage : Page
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
             MyWebView1.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
         }
+        catch (Exception ex)
+        {
+            StatusTextBlock1.Text = ex.Message;
+        }
 
-        if (false)
+        try
         // LocalCache
         {
             var destinationFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+            if (!Directory.Exists(destinationFolder.Path))
+                Directory.CreateDirectory(destinationFolder.Path);
             var destinationFilePath = Path.Combine(destinationFolder.Path, "index.html");
             using var destinationStream = File.OpenWrite(destinationFilePath);
             await resource.CopyToAsync(destinationStream);
@@ -108,11 +122,17 @@ public sealed partial class MainPage : Page
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
             MyWebView2.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
         }
+        catch (Exception ex)
+        {
+            StatusTextBlock2.Text = ex.Message;
+        }
 
-        if (false)
+        try
         // Roaming
         {
             var destinationFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            if (!Directory.Exists(destinationFolder.Path))
+                Directory.CreateDirectory(destinationFolder.Path);
             var destinationFilePath = Path.Combine(destinationFolder.Path, "index.html");
             using var destinationStream = File.OpenWrite(destinationFilePath);
             await resource.CopyToAsync(destinationStream);
@@ -120,6 +140,10 @@ public sealed partial class MainPage : Page
             var sourceUri = new Uri("ms-appdata:///Roaming/index.html");
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
             MyWebView3.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
+        }
+        catch (Exception ex)
+        {
+            StatusTextBlock3.Text = ex.Message;
         }
 
     }
@@ -138,39 +162,63 @@ public sealed partial class MainPage : Page
 
     private void MyWebView_WebMessageReceived(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
     {
-        MapTextBlock(sender).Text += $"""
+        try
+        {
+            MapTextBlock(sender).Text += $"""
             MyWebView_WebMessageReceived
-                source: [{args.Source}]
-
             """;
+            MapTextBlock(sender).Text += $"""
+                    source: [{args.Source}]                
+                """;
+        }
+        catch (Exception ex)
+        {
+            MapTextBlock(sender).Text = ex.Message;
+        }
     }
 
     private void MyWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
     {
-        MapTextBlock(sender).Text += $"""
+        try
+        {
+            MapTextBlock(sender).Text += $"""
             CORE WEB VIEW 2 INITIALIZED
                 exception: [{args.Exception}]
-
             """;
+        }
+        catch (Exception ex)
+        {
+            MapTextBlock(sender).Text = ex.Message;
+        }
     }
 
     private void MyWebView_CoreProcessFailed(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2ProcessFailedEventArgs args)
     {
-        MapTextBlock(sender).Text += $"""
+        try
+        {
+            MapTextBlock(sender).Text += $"""
             MyWebView_CoreProcessFailed: 
-                kind:[{args.ProcessFailedKind}] 
-                reason:[{args.Reason}] 
-                source:[{args.FailureSourceModulePath}]
-                process:[{args.ProcessDescription}]
-                frameInfo:[{args.FrameInfosForFailedProcess}]
-                exit code:[{args.ExitCode}]
-
             """;
+            MapTextBlock(sender).Text += $"""
+                    kind:[{args.ProcessFailedKind}] 
+                    reason:[{args.Reason}] 
+                    source:[{args.FailureSourceModulePath}]
+                    process:[{args.ProcessDescription}]
+                    frameInfo:[{args.FrameInfosForFailedProcess}]
+                    exit code:[{args.ExitCode}]                
+                """;
+        }
+        catch (Exception ex)
+        {
+            MapTextBlock(sender).Text = ex.Message;
+        }
     }
 
     private void MyWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
     {
-        MapTextBlock(sender).Text += $"""
+        try
+        {
+            MapTextBlock(sender).Text += $"""
             MyWebView_NavigationCompleted
                 success: [{args.IsSuccess}]
                 status:[{args.HttpStatusCode}]
@@ -178,19 +226,33 @@ public sealed partial class MainPage : Page
                 id:[{args.NavigationId}]
 
             """;
+        }
+        catch (Exception ex)
+        {
+            MapTextBlock(sender).Text = ex.Message;
+        }
     }
 
     private void MyWebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
     {
-        MapTextBlock(sender).Text += $"""
+        try
+        {
+            MapTextBlock(sender).Text += $"""
             MyWebView_NavigationStarting
                 cancel: [{args.Cancel}]
-                kind:[{args.NavigationKind}]
                 url:[{args.Uri}]
                 id:[{args.NavigationId}]
                 userInitiated:[{args.IsUserInitiated}]
-
             """;
+
+            MapTextBlock(sender).Text += $"""
+                    kind:[{args.NavigationKind}]                
+                """;
+        }
+        catch (Exception ex)
+        {
+            MapTextBlock(sender).Text = ex.Message;
+        }
     }
 
     private void useSourceUriToggle_Toggled(object sender, RoutedEventArgs e)
