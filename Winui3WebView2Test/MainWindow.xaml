@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Winui3WebView2Test.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Winui3WebView2Test"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Winui3WebView2Test">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button 
+          Margin="10"
+          Padding="10"
+          Content="LOAD CONTENT"
+          Click="Button_Click"
+          HorizontalAlignment="Center" />
+        <Rectangle Grid.Row="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <WebView2 x:Name="MyWebView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+
+
+</Window>

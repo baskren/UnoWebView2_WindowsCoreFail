@@ -1,0 +1,21 @@
+﻿<Page x:Class="UnoWebView2Test.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:UnoWebView2Test"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid utu:SafeArea.Insets="Left,Top,Right,Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button 
+          Margin="10"
+          Padding="10"
+          Content="LOAD CONTENT"
+          Click="Button_Click"
+          HorizontalAlignment="Center" />
+        <Rectangle Grid.Row="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <WebView2 x:Name="MyWebView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+</Page>

@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "UnoWebView2Test",
+  "display": "standalone",
+  "name": "UnoWebView2Test",
+  "short_name": "UnoWebView2Test",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
