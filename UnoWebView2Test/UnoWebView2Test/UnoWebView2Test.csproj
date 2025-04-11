@@ -35,6 +35,13 @@
     <UnoFeatures>
         Toolkit;
     </UnoFeatures>
+    <Platforms>AnyCPU;x86;x64;ARM64</Platforms>
   </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Condition=" $(TargetFramework.Contains('-desktop')) " Include="Microsoft.Web.WebView2" Aliases="WpfWebView" />
+    </ItemGroup>
+    
 
 </Project>
