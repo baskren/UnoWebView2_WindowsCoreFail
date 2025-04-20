@@ -40,7 +40,7 @@
 
 
     <ItemGroup>
-        <PackageReference Condition=" $(TargetFramework.Contains('-desktop')) " Include="Microsoft.Web.WebView2" Aliases="WpfWebView" />
+        <PackageReference Condition=" $(TargetFramework.Contains('-desktop')) " Include="Microsoft.Web.WebView2" Aliases="WpfWebView" VersionOverride="1.0.3179.45" />
     </ItemGroup>
     
 

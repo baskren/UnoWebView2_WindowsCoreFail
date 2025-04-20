@@ -6,8 +6,4 @@
     See https://aka.platform.uno/using-uno-sdk#implicit-packages for more information regarding the Implicit Packages.
   -->
 
-    <ItemGroup Condition=" $(TargetFramework.Contains('-desktop'))">
-        <PackageVersion Include="Microsoft.Web.WebView2" Aliases="WpfWebView"  Version="1.0.0" />
-    </ItemGroup>
-
 </Project>
