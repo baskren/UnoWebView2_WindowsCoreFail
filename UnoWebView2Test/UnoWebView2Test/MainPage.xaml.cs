@@ -55,13 +55,6 @@ public sealed partial class MainPage : Page
 
         StatusTextBlock0.Text = StatusTextBlock1.Text = StatusTextBlock2.Text = StatusTextBlock3.Text = string.Empty;
 
-        var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-        var files = await folder.GetFilesAsync();
-
-        foreach (var file in files)
-        {
-            System.Diagnostics.Debug.WriteLine(file.Name);
-        }
 
         await MyWebView0.EnsureCoreWebView2Async();
         await MyWebView1.EnsureCoreWebView2Async();
@@ -74,13 +67,15 @@ public sealed partial class MainPage : Page
         try
         // Asset
         {
-            // var assetFile = new Uri("ms-appx:///Assets/"); // StorageFile.GetFileFromApplicationUriAsync() throws: System.Runtime.InteropServices.COMException: ''
-            // var assetFile = new Uri("ms-appx-web:///Assets/index.html"); // StoreageFile.GetFileFromApplicationUriAsync() throws : System.ArgumentException: 'Value does not fall within the expected range.'
-            // var sourceUri = new Uri("ms-appdata:///Assets/index.html"); // Exception
+#if !__ANDROID__
+            //var assetFile = new Uri("ms-appx:///Assets/"); // StorageFile.GetFileFromApplicationUriAsync() throws: System.Runtime.InteropServices.COMException: ''
+           // var assetFile = new Uri("ms-appx-web:///Assets/index.html"); // StoreageFile.GetFileFromApplicationUriAsync() throws : System.ArgumentException: 'Value does not fall within the expected range.'
+            //var sourceUri = new Uri("ms-appdata:///Assets/index.html"); // Exception
             var sourceUri = new Uri("ms-appx:///Assets/index.html"); // works
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
             MyWebView0.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
-            //MyWebView0.NavigateToString("TEST STRING");
+            // MyWebView0.NavigateToString("TEST STRING");
+#endif
         }
         catch (Exception ex)
         {
@@ -101,6 +96,17 @@ public sealed partial class MainPage : Page
 
             var sourceUri = new Uri("ms-appdata:///Local/index.html");
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
+            
+            #if __ANDROID__
+            if (VisualTreeHelper.GetChildren<Android.Webkit.WebView>(MyWebView1).FirstOrDefault() is Android.Webkit.WebView webView)
+            {
+                webView.Settings.AllowContentAccess = true;
+                webView.Settings.AllowFileAccessFromFileURLs = true;
+                webView.Settings.AllowUniversalAccessFromFileURLs = true;
+                webView.Settings.AllowFileAccess = true;
+            }
+            #endif
+            
             MyWebView1.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
         }
         catch (Exception ex)
@@ -109,17 +115,28 @@ public sealed partial class MainPage : Page
         }
 
         try
-        // LocalCache
+        // Temp
         {
-            var destinationFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+            var destinationFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
             if (!Directory.Exists(destinationFolder.Path))
                 Directory.CreateDirectory(destinationFolder.Path);
             var destinationFilePath = Path.Combine(destinationFolder.Path, "index.html");
             using var destinationStream = File.OpenWrite(destinationFilePath);
             await resource.CopyToAsync(destinationStream);
 
-            var sourceUri = new Uri("ms-appdata:///LocalCache/index.html");
+            var sourceUri = new Uri("ms-appdata:///Temp/index.html");
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
+            
+#if __ANDROID__
+            if (VisualTreeHelper.GetChildren<Android.Webkit.WebView>(MyWebView2).FirstOrDefault() is Android.Webkit.WebView webView)
+            {
+                webView.Settings.AllowContentAccess = true;
+                webView.Settings.AllowFileAccessFromFileURLs = true;
+                webView.Settings.AllowUniversalAccessFromFileURLs = true;
+                webView.Settings.AllowFileAccess = true;
+            }
+#endif
+            
             MyWebView2.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
         }
         catch (Exception ex)
@@ -139,6 +156,17 @@ public sealed partial class MainPage : Page
 
             var sourceUri = new Uri("ms-appdata:///Roaming/index.html");
             var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(sourceUri);
+            
+#if __ANDROID__
+            if (VisualTreeHelper.GetChildren<Android.Webkit.WebView>(MyWebView3).FirstOrDefault() is Android.Webkit.WebView webView)
+            {
+                webView.Settings.AllowContentAccess = true;
+                webView.Settings.AllowFileAccessFromFileURLs = true;
+                webView.Settings.AllowUniversalAccessFromFileURLs = true;
+                webView.Settings.AllowFileAccess = true;
+            }
+#endif
+            
             MyWebView3.Source = UseSourceUri ? sourceUri : new Uri(storageFile.Path);
         }
         catch (Exception ex)

@@ -41,7 +41,7 @@
 
   </PropertyGroup>
 
-    <!--    
+    <!--
     <ItemGroup Condition=" $(TargetFramework.Contains('-windows'))">
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" OverrideVersion="10.0.26100.1742" />
         <PackageReference Include="Microsoft.WindowsAppSDK" OverrideVersion="1.7.250310001"/>
@@ -51,5 +51,14 @@
     <ItemGroup>
         <EmbeddedResource Include="Resources\**" />
     </ItemGroup>
-    
+
+
+    <Target Name="test" BeforeTargets="_ComputeAndroidAssetsPaths">
+        <CreateProperty Value="$(MonoAndroidAssetsPrefix);Assets">
+            <Output
+                TaskParameter="Value"
+                PropertyName="MonoAndroidAssetsPrefix" />
+        </CreateProperty>
+    </Target>
+
 </Project>
